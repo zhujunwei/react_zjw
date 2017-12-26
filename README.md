@@ -15,3 +15,12 @@
 
 ## proxy
     在package.json 中设置服务器代理proxy
+	
+	
+### 使用流程
+		1. clone项目
+		2. npm install
+		3. 安装mongodb 并启动
+		4. 查看mongodb启动端口默认27071(如果不是修改server文件下面的model.js)
+		5. 根目录启动npm start
+		6. 根目录启动服务 nodemon server/server.js
