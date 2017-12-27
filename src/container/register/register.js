@@ -2,12 +2,17 @@ import React from 'react';
 import Logo from '../../component/logo/logo';
 import { List, InputItem, WhiteSpace ,WingBlank, Button,Radio, Flex} from 'antd-mobile';
 import {connect} from 'react-redux';
-import {register} from '../../redux/user.redux';
+import {register } from '../../redux/user.redux';
 import '../../index.css';
+import {
+    Route,
+    Link,
+    Redirect
+} from 'react-router-dom';
 
 @connect(
     state => state.user,
-    {register}
+    {register }
 )
 class Register extends React.Component{
     constructor(){
@@ -28,6 +33,7 @@ class Register extends React.Component{
 
     handlerRegister(){
         console.log(this.state);
+
         this.props.register(this.state);
     }
 
@@ -35,6 +41,7 @@ class Register extends React.Component{
         const RadioItem = Radio.RadioItem;
         return (
             <div>
+                {this.props.redirectTo ? <Redirect to={this.props.redirectTo} /> : null}
                 <Logo></Logo>
                 <WingBlank>
                     <List>
@@ -48,7 +55,6 @@ class Register extends React.Component{
                         <RadioItem checked={this.state.type === 'boss'}  onChange={() => this.handleChange('type','boss')}>
                             老板
                         </RadioItem>
-
                     </List>
                     <WhiteSpace></WhiteSpace>
                     <WhiteSpace></WhiteSpace>

@@ -15,7 +15,11 @@
 
 ## proxy
     在package.json 中设置服务器代理proxy
-	
+
+
+## md5 加密 utility
+
+
 	
 ### 使用流程
 		1. clone项目
