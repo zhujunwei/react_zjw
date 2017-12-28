@@ -19,6 +19,8 @@
 
 ## md5 加密 utility
 
+##  使用prop-types
+    npm i --save prop-types
 
 	
 ### 使用流程

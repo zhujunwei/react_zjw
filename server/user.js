@@ -74,6 +74,22 @@ Router.get('/info',function (req,res) {
     return
 });
 
+//更新用户信息
+Router.post('/update',function(req,res){
+    const userid = req.cookies.userid;
+    if(!userid){
+        return res.json({code:1})
+    };
+    const body = req.body;
+    //查找更新
+    User.findByIdAndUpdate(userid,body,function(err,doc){
+        const data = Object.assign({},{
+            user:doc.user,
+            type:doc.type
+        },body);
+        return res.json({code:0,data:data});
+    })
+})
 
 function md5Pwd(pwd){
     const salt = 'zhujunwei_is_good';

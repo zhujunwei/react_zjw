@@ -1,29 +1,25 @@
 import axios from 'axios';
 import { getRedirectPath } from '../util';
 import {withRouter} from 'react-router-dom'
-const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
-const ERROR_MSG = 'ERROR_MSG';
-const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-const LOAD_DATA = 'LOAD_DATA';
-const CLEAR_MSG = 'CLEAR_MSG'
+const ERROR_MSG = 'ERROR_MSG';  //错误消息
+const LOAD_DATA = 'LOAD_DATA';  //获取用户信息
+const CLEAR_MSG = 'CLEAR_MSG';  //清楚msg
+const AUTH_SUCCESS = 'AUTH_SUCCESS'; //登录注册成功
 const initState = {
     msg:'',
     isAuth:false,
     user:'',
     pwd:'',
     type:''
-}
+} //初始化数据
 
 
 //reducer
 export function user(state=initState,action){
 
     switch (action.type){
-        case REGISTER_SUCCESS:
-            return{...state,msg:'',redirectTo:getRedirectPath(action.payload) ,isAuth:true,...action.payload};
-
-        case LOGIN_SUCCESS:
-            return{...state,msg:'',redirectTo:getRedirectPath(action.payload) ,isAuth:true,...action.payload};
+        case AUTH_SUCCESS:
+            return{...state,msg:'',redirectTo:getRedirectPath(action.payload) ,...action.payload,pwd:''};
 
         case LOAD_DATA:
             return{...state,msg:'',isAuth:true,...action.payload};
@@ -47,7 +43,7 @@ export function login({user,pwd}){
         axios.post('/user/login',{user,pwd})
             .then(res=>{
                 if(res.status === 200 && res.data.code == 0){
-                    dispatch(loginSuccess(res.data.data))
+                    dispatch(authSuccess(res.data.data))
                 }else{
                     dispatch(errorMsg((res.data.msg)));
                 }
@@ -66,7 +62,7 @@ export function register({user,pwd,repeatpwd,type}){
         axios.post('/user/register',{user,pwd,type})
             .then(res=>{
                 if(res.status === 200 && res.data.code == 0){
-                    dispatch(registerSuccess({user,pwd,type}))
+                    dispatch(authSuccess({user,pwd,type}))
 
                 }else{
                     dispatch(errorMsg((res.data.msg)));
@@ -82,19 +78,30 @@ export function loadData(userInfo){
     //获取用户信息
 
 }
-
 export function clearMsg(){
     return { type : CLEAR_MSG}
 }
-
-function loginSuccess(data){
-    return {type:LOGIN_SUCCESS,payload:data,redirectTo:''};
+//注册 登录成功
+function authSuccess(obj){
+    const {pwd,...data} = obj;
+    return {type:AUTH_SUCCESS,payload:data}
 }
+
 
 function errorMsg(error){
     return {msg:error , type:ERROR_MSG}
 }
-function registerSuccess(data){
-    return {payload:data ,type:REGISTER_SUCCESS}
-}
 
+//更新用户信息
+export function update(data){
+    return dispatch=>{
+        axios.post('/user/update',data)
+            .then(res=>{
+                if(res.status === 200 && res.data.code == 0){
+                    dispatch(authSuccess(res.data.data))
+                }else{
+                    dispatch(errorMsg((res.data.msg)));
+                }
+            })
+    }
+}
