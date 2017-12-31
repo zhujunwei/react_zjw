@@ -20,8 +20,9 @@ import './config';
 import Login from './container/login/login';
 import Register from './container/register/register';
 import AuthRoute from './component/authroute/authroute';
-import BossInfo from './container/bossinfo/bossinfo'
-import geniusInfo from './container/geniusinfo/geniusinfo'
+import BossInfo from './container/bossinfo/bossinfo';
+import geniusInfo from './container/geniusinfo/geniusinfo';
+import Dashboard from './component/dashboard/dashboard';
 
 const reduxDevTools = window.devToolsExtension ?  window.devToolsExtension() :()=>{};
 //新建store
@@ -35,10 +36,14 @@ ReactDOM.render(
         <BrowserRouter>
             <div>
                 <AuthRoute></AuthRoute>
-                <Route path="/bossinfo" component={BossInfo}></Route>
-                <Route path="/geniusinfo" component={geniusInfo}></Route>
-                <Route path="/login" component={Login}/>
-                <Route path="/register" component={Register}/>
+                <Switch>
+                    <Route path="/bossinfo" component={BossInfo}></Route>
+                    <Route path="/geniusinfo" component={geniusInfo}></Route>
+                    <Route path="/login" component={Login}/>
+                    <Route path="/register" component={Register}/>
+                    <Route component={Dashboard}/>
+                </Switch>
+
             </div>
         </BrowserRouter>
     </Provider>), document.getElementById('root'));

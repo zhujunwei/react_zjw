@@ -90,6 +90,15 @@ Router.post('/update',function(req,res){
         return res.json({code:0,data:data});
     })
 })
+//更新用户信息
+Router.get('/list',function(req,res){
+    const { type } = req.query;
+
+    //查找更新
+    User.find({type},function(err,doc){
+        return res.json({code:0,data:doc});
+    })
+})
 
 function md5Pwd(pwd){
     const salt = 'zhujunwei_is_good';

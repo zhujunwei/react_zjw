@@ -84,6 +84,7 @@ export function clearMsg(){
 //注册 登录成功
 function authSuccess(obj){
     const {pwd,...data} = obj;
+    console.log(data);
     return {type:AUTH_SUCCESS,payload:data}
 }
 
