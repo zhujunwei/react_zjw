@@ -5,6 +5,7 @@ const ERROR_MSG = 'ERROR_MSG';  //错误消息
 const LOAD_DATA = 'LOAD_DATA';  //获取用户信息
 const CLEAR_MSG = 'CLEAR_MSG';  //清楚msg
 const AUTH_SUCCESS = 'AUTH_SUCCESS'; //登录注册成功
+const LOGOUT = 'LOGOUT'; //登录注册成功
 const initState = {
     msg:'',
     isAuth:false,
@@ -28,6 +29,9 @@ export function user(state=initState,action){
 
         case ERROR_MSG:
             return{...state,msg:'',isAuth:false,msg:action.msg};
+
+        case LOGOUT:
+            return{...initState,redirectTo:'/login'};
 
         default:
             return state;
@@ -105,4 +109,9 @@ export function update(data){
                 }
             })
     }
+}
+
+//注销登录
+export function logoutSubmit(){
+    return {type:LOGOUT}
 }

@@ -1,5 +1,6 @@
 //合并所有的reducer，并且返回
 import {combineReducers} from 'redux';
 import {user} from './redux/user.redux';
-const reducers = combineReducers({user});
+import {chatuser} from './redux/chatuser.redux';
+const reducers = combineReducers({user,chatuser});
 export default reducers;

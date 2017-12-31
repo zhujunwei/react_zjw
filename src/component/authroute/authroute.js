@@ -27,7 +27,6 @@ export  default  class AuthRoute extends React.Component{
                         //有登录信息
                         this.props.loadData(res.data.data);
                     }else{
-
                         this.props.history.push('/login');
                     }
                     console.log(res.data);

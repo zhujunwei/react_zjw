@@ -9,32 +9,32 @@ import {
     Link,
     Redirect
 } from 'react-router-dom';
+import ZForm from '../../component/z-form/z-form'
 
 @connect(
     state => state.user,
     {register }
 )
+@ZForm
 class Register extends React.Component{
     constructor(){
         super();
-        this.state ={
-            type:'genuis',
-            user:'',
-            pwd:'',
-            repeatpwd:''
-        }
+        // this.state ={
+        //     type:'genuis',
+        //     user:'',
+        //     pwd:'',
+        //     repeatpwd:''
+        // }
     }
 
-    handleChange(key,value){
-        this.setState({
-            [key]:value
-        })
+    componentDidMount(){
+        this.props.handleChange('type','genuis');
     }
 
     handlerRegister(){
         console.log(this.state);
 
-        this.props.register(this.state);
+        this.props.register(this.props.state);
     }
 
     render(){
@@ -45,14 +45,14 @@ class Register extends React.Component{
                 <Logo></Logo>
                 <WingBlank>
                     <List>
-                        <InputItem onChange={v=> this.handleChange('user',v)}>用户名</InputItem>
+                        <InputItem onChange={v=> this.props.handleChange('user',v)}>用户名</InputItem>
                         {this.props.msg?<p className='error-msg'>{this.props.msg}</p>:null}
-                        <InputItem type="password" onChange={v=> this.handleChange('pwd',v)}>密码</InputItem>
-                        <InputItem type="password" onChange={v=> this.handleChange('repeatpwd',v)}>确认密码</InputItem>
-                        <RadioItem checked={this.state.type === 'genuis'} onChange={() => this.handleChange('type','genuis')}>
+                        <InputItem type="password" onChange={v=> this.props.handleChange('pwd',v)}>密码</InputItem>
+                        <InputItem type="password" onChange={v=> this.props.handleChange('repeatpwd',v)}>确认密码</InputItem>
+                        <RadioItem checked={this.props.state.type === 'genuis'} onChange={() => this.props.handleChange('type','genuis')}>
                             牛人
                         </RadioItem>
-                        <RadioItem checked={this.state.type === 'boss'}  onChange={() => this.handleChange('type','boss')}>
+                        <RadioItem checked={this.props.state.type === 'boss'}  onChange={() => this.props.handleChange('type','boss')}>
                             老板
                         </RadioItem>
                     </List>

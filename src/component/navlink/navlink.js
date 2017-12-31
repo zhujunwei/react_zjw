@@ -13,8 +13,8 @@ export  default class NavLinkBar extends React.Component{
 
         const navList = this.props.data.filter(v=> !v.hide);
         const {pathname} = this.props.location;
+        console.log('navList',navList)
         return (
-
             <TabBar>
                 {navList.map(v=>(
                     <TabBar.Item
@@ -23,6 +23,9 @@ export  default class NavLinkBar extends React.Component{
                         icon={{uri: require(`./img/${v.icon}.png`)}}
                         selectedIcon={{uri: require(`./img/${v.icon}-active.png`)}}
                         selected={pathname === v.path}
+                        onPress={()=>{
+                            this.props.history.push(v.path)
+                        }}
                     >
                     </TabBar.Item>
                 ))}

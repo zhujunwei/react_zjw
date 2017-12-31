@@ -8,12 +8,6 @@ const models = require('./model');
 const User = models.getModel('user');
 const utils = require('utility');
 const _filter = {'pwd':0,'__v':0}; //过滤 密码，版本号
-Router.get('/list',function (req,res) {
-    User.find({},function(err,doc){
-        console.log(doc)
-        return res.json(doc)
-    })
-});
 
 Router.post('/register',function (req,res) {
     const {user,pwd,type} = req.body;
@@ -56,7 +50,6 @@ Router.post('/login',function (req,res) {
     })
 });
 
-
 Router.get('/info',function (req,res) {
     const {userid} = req.cookies;
     if(!userid){
@@ -79,7 +72,7 @@ Router.post('/update',function(req,res){
     const userid = req.cookies.userid;
     if(!userid){
         return res.json({code:1})
-    };
+    }
     const body = req.body;
     //查找更新
     User.findByIdAndUpdate(userid,body,function(err,doc){
@@ -89,16 +82,16 @@ Router.post('/update',function(req,res){
         },body);
         return res.json({code:0,data:data});
     })
-})
+});
 //更新用户信息
 Router.get('/list',function(req,res){
     const { type } = req.query;
-
+    console.log(111);
     //查找更新
     User.find({type},function(err,doc){
         return res.json({code:0,data:doc});
     })
-})
+});
 
 function md5Pwd(pwd){
     const salt = 'zhujunwei_is_good';

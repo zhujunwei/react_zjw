@@ -4,14 +4,15 @@ import { List, InputItem, WhiteSpace ,WingBlank, Button} from 'antd-mobile';
 import { login , clearMsg } from '../../redux/user.redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import ZForm from '../../component/z-form/z-form'
+
 
 @connect(
     state => state.user,
     {login , clearMsg}
 )
-
-class Login extends React.Component{
-
+@ZForm
+export  default  class Login extends React.Component{
     constructor(){
         super();
         this.state = {
@@ -19,33 +20,27 @@ class Login extends React.Component{
             pwd:""
         }
     }
-
     register(){
         console.log(this.props);
         this.props.clearMsg();
         this.props.history.push('/register')
     }
 
-    handleChange(key,value){
-        this.setState({
-            [key]:value
-        })
-    }
-
     handleLogin(){
-        this.props.login(this.state);
+        this.props.login(this.props.state);
     }
     render(){
         return (
             <div>
-                {this.props.redirectTo ? <Redirect to={this.props.redirectTo} /> : null}
+
+                {this.props.redirectTo && this.props.redirectTo != '/login' ? <Redirect to={this.props.redirectTo} /> : null}
                 <Logo></Logo>
                 <WingBlank>
                     <List>
                         <InputItem
-                            onChange={v=>{this.handleChange('user',v)}}>用户名</InputItem>
+                            onChange={v=>{this.props.handleChange('user',v)}}>用户名</InputItem>
                         <InputItem
-                            onChange={v=>{this.handleChange('pwd',v)}}>密码</InputItem>
+                            onChange={v=>{this.props.handleChange('pwd',v)}}>密码</InputItem>
                     </List>
                     {this.props.msg?<p className='error-msg'>{this.props.msg}</p>:null}
                     <WhiteSpace></WhiteSpace>
@@ -57,6 +52,3 @@ class Login extends React.Component{
         )
     }
 }
-
-
-export  default  Login

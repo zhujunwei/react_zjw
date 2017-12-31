@@ -11,6 +11,16 @@
     width: 100%;
     height:auto;
 }
+
+.dashboard-container{
+    position: absolute;
+    top:45px;
+    bottom:50px;
+    width:100%;
+    overflow: auto;
+    z-index:101;
+}
+
 .fixd-header.am-navbar{
     position: fixed;
     top: 0;
