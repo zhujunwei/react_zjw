@@ -6,14 +6,14 @@ import NavLinkBar from '../navlink/navlink';
 import  Boss from '../boss/boss';
 import  Genuis from '../genuis/genuis';
 import  User from '../user/user';
+import  Msg from '../msg/msg';
+import {getMsgList,recvMsg} from '../../redux/chat.redux';
 
 
-function Msg(){
-    return <h2>Msg</h2>
-}
 
 @connect(
-    state=>state
+    state=>state,
+    {getMsgList,recvMsg}
 )
 export  default class Dashboard extends React.Component{
     constructor(){
@@ -24,11 +24,20 @@ export  default class Dashboard extends React.Component{
             desc:''
         }
     }
+
+    componentDidMount(){
+        if(!this.props.chat.chatmsg.length){
+            this.props.getMsgList();
+            this.props.recvMsg();
+        }
+
+    }
+
     render(){
         const userInfo = this.props.user;
-        console.log('userInfo',userInfo);
+        // console.log('userInfo',userInfo);
         const {pathname} = this.props.location;
-        console.log('pathname:'+pathname);
+        // console.log('pathname:'+pathname);
         const navList = [
             {
                 path:'/boss',

@@ -23,6 +23,7 @@ import AuthRoute from './component/authroute/authroute';
 import BossInfo from './container/bossinfo/bossinfo';
 import geniusInfo from './container/geniusinfo/geniusinfo';
 import Dashboard from './component/dashboard/dashboard';
+import Chat from './component/chat/chat';
 
 const reduxDevTools = window.devToolsExtension ?  window.devToolsExtension() :()=>{};
 //新建store
@@ -41,6 +42,7 @@ ReactDOM.render(
                     <Route path="/geniusinfo" component={geniusInfo}></Route>
                     <Route path="/login" component={Login}/>
                     <Route path="/register" component={Register}/>
+                    <Route path="/chat/:user" component={Chat}/>
                     <Route component={Dashboard}/>
                 </Switch>
 

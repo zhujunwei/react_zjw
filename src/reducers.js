@@ -2,5 +2,6 @@
 import {combineReducers} from 'redux';
 import {user} from './redux/user.redux';
 import {chatuser} from './redux/chatuser.redux';
-const reducers = combineReducers({user,chatuser});
+import {chat} from './redux/chat.redux';
+const reducers = combineReducers({user,chatuser,chat});
 export default reducers;

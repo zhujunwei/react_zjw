@@ -26,7 +26,6 @@ export  default class bossInfo extends React.Component{
     }
 
     selectAvatar(val){
-        console.log(val);
         this.setState({
             avatar:val
         })

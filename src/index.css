@@ -20,6 +20,14 @@
     overflow: auto;
     z-index:101;
 }
+.chat-list-container{
+    position: absolute;
+    top:45px;
+    bottom:40px;
+    width:100%;
+    overflow: auto;
+    z-index:101;
+}
 
 .fixd-header.am-navbar{
     position: fixed;
@@ -45,7 +53,7 @@
     margin-top: 0;
 }
 .stick-footer{
-    z-index:10;
+    z-index:1000;
     position: absolute;
     bottom: 0;
     width:100%;

@@ -6,6 +6,7 @@ const express = require('express');
 const Router = express.Router();
 const models = require('./model');
 const User = models.getModel('user');
+const Chat = models.getModel('chat');
 const utils = require('utility');
 const _filter = {'pwd':0,'__v':0}; //过滤 密码，版本号
 
@@ -93,9 +94,40 @@ Router.get('/list',function(req,res){
     })
 });
 
+
 function md5Pwd(pwd){
     const salt = 'zhujunwei_is_good';
     return utils.md5(utils.md5(salt+pwd));
 }
+
+Router.get('/getmsglist',function(req,res){
+    const user = req.cookies.userid;
+    User.find({},function(e,userdoc){
+        let users = {};
+        userdoc.forEach(v=>{
+            users[v._id] = {name:v.user,avatar:v.avatar}
+        })
+        Chat.find({'$or':[{from:user},{to:user}]},function(err,doc){
+            if(!err){
+                return res.json({code:0,msgs:doc,users:users});
+            }
+        })
+    })
+})
+
+Router.post('/readmsg',function(req,res){
+    const userid = req.cookies.userid;
+    const { from } = req.body;
+    Chat.update(
+        {from,to:userid},
+        {'$set':{read:true}},
+        {'multi':true},function(err,doc){
+        if(!err){
+            return res.json({code:0,num:doc.nModified})
+        }
+        return res.json({code:1,msg:'修改失败'})
+    })
+})
+
 
 module.exports = Router;

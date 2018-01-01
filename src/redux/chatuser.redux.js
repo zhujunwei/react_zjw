@@ -27,6 +27,7 @@ export function getUserList(type){
         axios.get(`/user/list?type=${type}`)
             .then(res=>{
                 console.log('res',res)
+
                 if(res.data.code == 0){
                     dispatch(userList(res.data.data));
                 }
