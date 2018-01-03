@@ -1,6 +1,6 @@
-##技术栈 : react16 + redux + router4 + antd-mobile + axios + nodeJS + express + mongodb
+## 技术栈 : react16 + redux + router4 + antd-mobile + axios + nodeJS + express + mongodb
 
-##运行项目(需要nodeJS 6.0+环境)
+## 运行项目(需要nodeJS 6.0+环境)
 
     1. git clone https://github.com/zhujunwei/react_redux.git
     2. 安装mongodb
