@@ -1,0 +1,34 @@
+.chat-msg-list{
+    display: flex;
+    position: relative;
+    width:100%;
+    height:50px;
+    align-items: flex-start;
+}
+.chat-msg-white{
+    position: relative;
+    width:40px;
+    height:auto;
+}
+.chat-msg-block{
+    position: relative;
+    flex:1;
+    height:auto;
+    min-height:40px;
+    padding:10px;
+    font-size:14px;
+    line-height:19px;
+    background-color: #9EEA6A;
+    word-break: break-all;
+    border-radius: 4px;
+    text-align: justify;
+}
+.chat-msg-img{
+    position: relative;
+    margin-top:1px;
+    width:50px;
+    padding-right:10px;
+    height:40px;
+    flex-shrink:0;
+}
+

@@ -3,6 +3,7 @@ import {List,InputItem,NavBar,Icon,Grid} from 'antd-mobile';
 import {connect} from 'react-redux';
 import {getMsgList,sendMsg,recvMsg,readMsg} from '../../redux/chat.redux';
 import {getChatId} from '../../util';
+import ChatMsgList from '../chat-msg-list/chat-msg-list';
 @connect(
     state=>state,
     {getMsgList,sendMsg,recvMsg,readMsg}
@@ -70,21 +71,23 @@ export default class Chat extends React.Component{
                 </NavBar>
                 <div className="chat-list-container">
                     {chatmsgs.map((v,i)=>{
-                        const avatar = require(`../images/${users[v.from].avatar}.png`)
-                        return v.from == userid?(
-                            <List key={i}>
-                                <Item
-                                    thumb={avatar}
-                                >{v.content}</Item>
-                            </List>
-
-                        ):(
-                            <List key={i}>
-                                <Item
-                                    extra={<img src={avatar} />}
-                                    className="chat-me">{v.content}</Item>
-                            </List>
-                        )
+                        const avatar = require(`../images/${users[v.from].avatar}.png`);
+                        let isMySend = v.from == userid ? true : false;
+                        return <ChatMsgList isMySend={isMySend} content={v.content} avatar={avatar}/>
+                        // return v.from == userid?(
+                        //     <List key={i}>
+                        //         <Item
+                        //             thumb={avatar}
+                        //         >{v.content}</Item>
+                        //     </List>
+                        //
+                        // ):(
+                        //     <List key={i}>
+                        //         <Item
+                        //             extra={<img src={avatar} />}
+                        //             className="chat-me">{v.content}</Item>
+                        //     </List>
+                        // )
                     })}
 
                 </div>
