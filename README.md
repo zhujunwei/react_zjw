@@ -43,3 +43,10 @@
 ##项目代理proxy
 
     在package.json中配置 "proxy": "http://localhost:9093"
+
+## redux文件夹
+    1.用户相关的reducer（包含登录，注册等功能）
+    2.获取用户列表的reducer
+    3.在线聊天，未读消息，聊天数据的reducer
+    在reducers中使用  redux的combineReducers合并reducer；
+    在index.js中使用 createStore创建store ，并使用applyMiddleware使用异步的action
