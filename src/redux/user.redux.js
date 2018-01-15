@@ -25,7 +25,7 @@ export function user(state=initState,action){
         case LOAD_DATA:
             return{...state,msg:'',isAuth:true,...action.payload};
         case CLEAR_MSG:
-            return{...state,msg:''};
+            return{...state,msg:'',redirectTo:""};
 
         case ERROR_MSG:
             return{...state,msg:'',isAuth:false,msg:action.msg};

@@ -50,3 +50,19 @@
     3.在线聊天，未读消息，聊天数据的reducer
     在reducers中使用  redux的combineReducers合并reducer；
     在index.js中使用 createStore创建store ，并使用applyMiddleware使用异步的action
+
+## Eslint
+    aribnb 定制风格
+
+## 动画解决方案
+    npm i --save rc-queue-anim
+
+## 打包编译
+    npm run build
+
+
+## ssr 服务器端渲染
+    1.安装 npm i --save babel-node （node 端支持es6）
+    2.项目根目录配置.babelrc的配置文件
+    3."server": "cross-env NODE_ENV=test nodemon --exec babel-node server/server.js",package.json中增加
+        备注：windows中需要安装cross-env

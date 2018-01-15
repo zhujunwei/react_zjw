@@ -15,7 +15,9 @@ const models = {
         'desc': {type : String},  //简介
         'title': { type:String}, //职位
         'company': { type: String},//公司 boss
-        'money': {type : String}
+        'money': {type : String},
+        'token':{type:String,require:true},
+        'userId':{type:String,require:true} //用户的userId
     },
     chat:{
         'chatid':{type:String,isRequired:true},
@@ -24,8 +26,14 @@ const models = {
         'read':{type:Boolean,default:false},
         'content':{type:String,require:true,default:''},
         'create_time':{type:Number,default:Date.now()}
+    },
+    user_token:{ //token保存的表
+        'userId':{type:String,require:true},
+        'access_token':{type:String,require:true},
+        'token_effective':{ type:Date,require:true, default:Date.now }
     }
 }
+
 
 //建立模型
 for(let m in models){

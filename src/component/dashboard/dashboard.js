@@ -8,7 +8,7 @@ import  Genuis from '../genuis/genuis';
 import  User from '../user/user';
 import  Msg from '../msg/msg';
 import {getMsgList,recvMsg} from '../../redux/chat.redux';
-
+import QueueAnim from 'rc-queue-anim';
 
 
 @connect(
@@ -68,16 +68,17 @@ export  default class Dashboard extends React.Component{
                 component:User,
 
             }
-        ]
+        ];
+        const page = navList.find(v=>v.path == pathname);
+        console.log(page)
+        // 让动画生效，值渲染一个router
         return (
             <div>
                 <NavBar className="fixd-header" mode="dark">{navList.find(v=> v.path == pathname).title}</NavBar>
                 <div className="dashboard-container">
-                    <Switch>
-                        {navList.map(v=>(
-                            <Route path={v.path} key={v.path} component={v.component} />
-                        ))}
-                    </Switch>
+                    <QueueAnim>
+                        <Route path={page.path} key={page.path} component={page.component} />
+                    </QueueAnim>
                 </div>
                 <NavLinkBar data={navList}></NavLinkBar>
             </div>
