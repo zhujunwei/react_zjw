@@ -1,8 +1,5 @@
 import React from 'react';
-
 import {renderToString} from 'react-dom/server';
-
-
 
 const express = require('express');
 const userRouter = require('./user');
@@ -16,7 +13,8 @@ const app = express();
 //work with express
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
-const path = require('path')
+const path = require('path');
+const jwt = require("jsonwebtoken");
 
 
 
@@ -32,8 +30,24 @@ io.on('connection',function(socket){
 })
 
 app.use(cookieParser()) //解析cookie
+app.use(bodyParser.urlencoded({ extended: true })); //解析form表单
 app.use(bodyParser.json()); //解析post参数
 app.use(morgan('short'))
+
+// app.use(function(req, res, next) {
+//     res.setHeader('Access-Control-Allow-Origin', '*');
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+//     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
+//     next();
+// });
+
+
+//登录拦截器
+app.all('/*', function(req, res, next){
+    // console.log(req);
+    next();
+});
+
 //使用中间件,/user路径下面
 app.use('/user',userRouter);
 

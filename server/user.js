@@ -7,8 +7,11 @@ const Router = express.Router();
 const models = require('./model');
 const User = models.getModel('user');
 const Chat = models.getModel('chat');
+const User_token = models.getModel('user_token');
 const utils = require('utility');
 const _filter = {'pwd':0,'__v':0}; //过滤 密码，版本号
+
+const UUID = require('uuid');
 
 Router.post('/register',function (req,res) {
     const {user,pwd,type} = req.body;
@@ -26,15 +29,6 @@ Router.post('/register',function (req,res) {
             res.cookie('userid', _id);
             return res.json({code:0,data:{user,type,_id}});
         })
-
-        // User.create(,function(e,d){
-        //     if(e){
-        //         return res.json({code:1,msg:'系统错误'});
-        //     }else{
-        //         //把信息写入cookie
-        //
-        //     }
-        // })
     })
 });
 //登录
@@ -44,9 +38,30 @@ Router.post('/login',function (req,res) {
         if(!doc){
             return res.json({code:1,msg:'用户名或密码错误'});
         }else{
-            //设置cookie
-            res.cookie('userid', doc._id);
-            return res.json({code:0,data:doc});
+            let uuid = UUID.v4();
+            User_token.findOne({userId:doc._id},function(err,r){
+                console.log(r);
+                if(!r){
+                    var user_token = new User_token({
+                            "userId":doc._id,
+                            "access_token":uuid
+                        });
+                    user_token.save(function(err,doc2){
+                        if(err){
+                            console.log(err);
+                        }else{
+                            return res.json({code:0,data:doc,token:uuid});
+                        }
+                    })
+                }else{
+                    User_token.update({"userId":doc._id},{$set:{"access_token":uuid}},function(e,doc3){
+                        if(!e){
+                            return res.json({code:0,data:doc,token:uuid});
+                        }
+                    })
+                    
+                }
+            })  
         }
     })
 });
@@ -87,7 +102,6 @@ Router.post('/update',function(req,res){
 //更新用户信息
 Router.get('/list',function(req,res){
     const { type } = req.query;
-    console.log(111);
     //查找更新
     User.find({type},function(err,doc){
         return res.json({code:0,data:doc});
