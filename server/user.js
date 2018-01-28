@@ -54,7 +54,8 @@ Router.post('/login',function (req,res) {
                         }
                     })
                 }else{
-                    User_token.update({"userId":doc._id},{$set:{"access_token":uuid}},function(e,doc3){
+                    var date = Date.now() + 3600 * 24 * 2 * 1000;
+                    User_token.update({"userId":doc._id},{$set:{"access_token":uuid,token_effective:date}},function(e,doc3){
                         if(!e){
                             return res.json({code:0,data:doc,token:uuid});
                         }
@@ -67,18 +68,28 @@ Router.post('/login',function (req,res) {
 });
 
 Router.get('/info',function (req,res) {
-    const {userid} = req.cookies;
-    if(!userid){
+    const {authorization} = req.headers;
+    if(!authorization){
         return res.json({code:1});
     }else{
-        User.findOne({_id:userid},_filter,function(err,doc){
+        User_token.findOne({access_token:authorization},_filter,function(err,doc){
             if(err){
                 return res.json({code:1,msg:'系统异常'});
             }
             if(doc) {
-                return  res.json({code:0,data:doc});
+                console.log('doc',doc);
+                const {userId} = doc;
+                User.findOne({_id:userId},_filter,function(err,doc){
+                    if(err){
+                        return res.json({code:1,msg:'系统异常'});
+                    }
+                    if(doc) {
+                        return  res.json({code:0,data:doc});
+                    }
+                })
             }
         })
+        
     }
     return
 });

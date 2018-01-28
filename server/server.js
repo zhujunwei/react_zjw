@@ -8,15 +8,14 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const models = require('./model');
 const Chat = models.getModel('chat');
+const errhandler = require('./errorHandler');//错误处理中间件
+const userOperate = require('./user_operate');
 //新建app
 const app = express();
 //work with express
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const path = require('path');
-const jwt = require("jsonwebtoken");
-
-
 
 
 io.on('connection',function(socket){
@@ -44,33 +43,45 @@ app.use(morgan('short'))
 
 //登录拦截器
 app.all('/*', function(req, res, next){
-    // console.log(req);
-    next();
+    console.log('-------------------------')
+    console.log(req.headers)
+    console.log(req.path)
+    if(req.path === '/user/login') return next();
+    var authorization = req.headers.authorization;
+    if(!!authorization){
+        userOperate.checkAuthorization(authorization,next);
+    }else{
+        return next({
+            statusCode:403,
+            err:'用户认证失败'
+        })
+    }
+    
 });
 
 //使用中间件,/user路径下面
 app.use('/user',userRouter);
 
-//设置静态资源
-app.use(function(req,res,next){
-    if(req.url.startsWith('/user/') || req.url.startsWith('/static/')){
-        return next()
-    }
-    function App(){
-        return(
-            <div>
-                <p>aaaaa</p>
-                <p>ssss</p>
-            </div>
-        )
-    }
-    const htmlRes = renderToString(<App></App>)
-    res.send(htmlRes);
-    // console.log(renderToString(App()))
-    // return res.sendFile(path.resolve('build/index.html'));
-})
-app.use('/',express.static(path.resolve('build')))
-
+// 设置静态资源
+// app.use(function(req,res,next){
+//     if(req.url.startsWith('/user/') || req.url.startsWith('/static/')){
+//         return next()
+//     }
+//     function App(){
+//         return(
+//             <div>
+//                 <p>aaaaa</p>
+//                 <p>ssss</p>
+//             </div>
+//         )
+//     }
+//     const htmlRes = renderToString(<App></App>)
+//     res.send(htmlRes);
+//     // console.log(renderToString(App()))
+//     // return res.sendFile(path.resolve('build/index.html'));
+// })
+// app.use('/',express.static(path.resolve('build')))
+app.use(errhandler())
 server.listen(9093,function(){
     console.log('服务启动与 9093')
 })

@@ -66,3 +66,6 @@
     2.项目根目录配置.babelrc的配置文件
     3."server": "cross-env NODE_ENV=test nodemon --exec babel-node server/server.js",package.json中增加
         备注：windows中需要安装cross-env
+
+## jwt
+    npm install jsonwebtoken        

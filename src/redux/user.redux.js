@@ -11,7 +11,8 @@ const initState = {
     isAuth:false,
     user:'',
     pwd:'',
-    type:''
+    type:'',
+    token:''
 } //初始化数据
 
 
@@ -46,8 +47,9 @@ export function login({user,pwd}){
     return dispatch=>{
         axios.post('/user/login',{user,pwd})
             .then(res=>{
+                console.log('登录成功,',res);
                 if(res.status === 200 && res.data.code == 0){
-                    dispatch(authSuccess(res.data.data))
+                    dispatch(authSuccess(res.data))
                 }else{
                     dispatch(errorMsg((res.data.msg)));
                 }
@@ -87,9 +89,10 @@ export function clearMsg(){
 }
 //注册 登录成功
 function authSuccess(obj){
-    const {pwd,...data} = obj;
-    console.log(data);
-    return {type:AUTH_SUCCESS,payload:data}
+    const {data:{pwd,...datas},token} = obj;
+    localStorage.setItem('token',token);
+    let newData = {...datas,token};
+    return {type:AUTH_SUCCESS,payload:newData};
 }
 
 

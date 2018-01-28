@@ -14,7 +14,6 @@ export  default  class AuthRoute extends React.Component{
     componentDidMount(){
         const publicList = ['/login','/register'];
         const pathName = this.props.location.pathname;
-
         if(publicList.indexOf(pathName) > -1){
             //判断是否在登录或者注册页面，就不需要获取用户信息了
             return null;
@@ -26,11 +25,13 @@ export  default  class AuthRoute extends React.Component{
                     if(res.data.code === 0){
                         //有登录信息
                         this.props.loadData(res.data.data);
+                        this.props.history.push(`/${res.data.data.type}`);
                     }else{
                         this.props.history.push('/login');
                     }
-                    console.log(res.data);
                 }
+            }).catch(err=>{
+                this.props.history.push('/login');
             })
     }
     render(){

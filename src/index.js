@@ -16,6 +16,8 @@ import {
 
 import reducers from './reducers'
 import './config';
+import axios from 'axios';
+
 
 import Login from './container/login/login';
 import Register from './container/register/register';

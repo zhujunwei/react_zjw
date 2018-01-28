@@ -50,11 +50,19 @@ function msgRead({from,userid,num}){
 
 export function getMsgList(){
     return async (dispath,getState)=>{
-        const res = await  axios.get('/user/getmsglist');
-        const userid = getState().user._id;
-        if(res.status == 200 && res.data.code == 0){
-            dispath(msgList(res.data.msgs,res.data.users,userid))
+        const token = getState().user.token;
+        try{
+            const res = await  axios.get('/user/getmsglist',{
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            });
+            const userid = getState().user._id;
+            if(res.status == 200 && res.data.code == 0){
+                dispath(msgList(res.data.msgs,res.data.users,userid))
+            }
+        }catch(err){
+            console.log(err);
         }
+        
     }
 }
 
