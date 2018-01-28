@@ -5,13 +5,17 @@ import browserCookie from 'browser-cookies';
 import { logoutSubmit } from '../../redux/user.redux';
 import { Redirect} from 'react-router-dom';
 
+import axios from 'axios';
+
 @connect(
     state=>state.user,
     {logoutSubmit}
 )
 export default class User extends React.Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
+        this.imgChoose = this.imgChoose.bind(this);
+        this.changeImg = this.changeImg.bind(this);
     }
 
     logout(){
@@ -26,6 +30,28 @@ export default class User extends React.Component{
         ]);
         // browserCookie.erase('userid');
     }
+    //弹出选择图片选项框
+    imgChoose(){
+        console.log(111);
+        console.log(this.refs.myInput);
+        this.refs.myInput.click();
+    }
+    //更换图片
+    changeImg(event){
+        console.log(this.refs.myInput.files[0]);
+        
+        const formData = new FormData();
+        let filePath = this.refs.myInput.files[0];
+        formData.append('file',filePath);
+        axios.post('/upload/avatar',formData)
+            .then(res=>{
+                console.log(res)
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+    }
+
 
     render(){
 
@@ -35,9 +61,9 @@ export default class User extends React.Component{
         const Brief = Item.Brief;
         return props.user ? (
             <div>
-
+                <input type="file" style={{visibility: 'hidden',height: 0,width: 0}}  accept="image/png, image/jpeg, image/jpg" ref="myInput" onChange={this.changeImg}></input>
                 <Result
-                    img={<img src={require(`../images/${props.avatar}.png`)} width="50px" alt="" />}
+                    img={<img src={require(`../images/${props.avatar}.png`)} width="50px" alt=""  onClick={this.imgChoose} />}
                     title={props.user}
                     message={<div>{props.type == 'boss'?props.company:null}</div>}
                 />
@@ -64,6 +90,6 @@ export default class User extends React.Component{
                     {/*</Item>*/}
                 {/*</List>*/}
             </div>
-        ): <Redirect to={this.props.redirectTo}/>
+        ): <Redirect to={this.props.redirectTo ?this.props.redirectTo : 'me' }/>
     }
 }

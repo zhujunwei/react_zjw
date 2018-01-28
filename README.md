@@ -67,5 +67,6 @@
     3."server": "cross-env NODE_ENV=test nodemon --exec babel-node server/server.js",package.json中增加
         备注：windows中需要安装cross-env
 
-## jwt
-    npm install jsonwebtoken        
+## node-formidable 保存文件
+    npm install formidable --save  
+

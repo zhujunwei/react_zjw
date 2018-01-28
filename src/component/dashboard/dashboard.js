@@ -76,9 +76,9 @@ export default class Dashboard extends React.Component {
                 <div>
                     <NavBar className="fixd-header" mode="dark">{navList.find(v => v.path == pathname).title}</NavBar>
                     <div className="dashboard-container">
-                        <QueueAnim>
+                        {/* <QueueAnim> */}
                             <Route path={page.path} key={page.path} component={page.component} />
-                        </QueueAnim>
+                        {/* </QueueAnim> */}
                     </div>
                     <NavLinkBar data={navList}></NavLinkBar>
                 </div>

@@ -3,6 +3,7 @@ import {renderToString} from 'react-dom/server';
 
 const express = require('express');
 const userRouter = require('./user');
+const fileRouter = require('./fileOperate');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
@@ -43,9 +44,9 @@ app.use(morgan('short'))
 
 //登录拦截器
 app.all('/*', function(req, res, next){
-    console.log('-------------------------')
-    console.log(req.headers)
-    console.log(req.path)
+    // console.log('-------------------------')
+    // console.log(req.headers)
+    // console.log(req.path)
     if(req.path === '/user/login') return next();
     var authorization = req.headers.authorization;
     if(!!authorization){
@@ -61,6 +62,7 @@ app.all('/*', function(req, res, next){
 
 //使用中间件,/user路径下面
 app.use('/user',userRouter);
+app.use('/upload',fileRouter);
 
 // 设置静态资源
 // app.use(function(req,res,next){
