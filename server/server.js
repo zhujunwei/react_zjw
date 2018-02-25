@@ -34,22 +34,26 @@ app.use(bodyParser.urlencoded({ extended: true })); //解析form表单
 app.use(bodyParser.json()); //解析post参数
 app.use(morgan('short'))
 
- app.use(function(req, res, next) {
-     res.setHeader('Access-Control-Allow-Origin', '*');
-     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
-     next();
- });
 
+app.use(function(req, res, next) {
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
+	res.setHeader('Access-Control-Allow-Credentials', 'true');
+	res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization,access_token');
+    next()
+
+});
 
 //登录拦截器
 app.all('/*', function(req, res, next){
     // console.log('-------------------------')
-    // console.log(req.headers)
-    // console.log(req.path)
-    if(req.path === '/user/login') return next();
+    console.log(req.headers)
+    console.log('---------------------')
+
+    if(req.path === '/user/login' || req.path === '/user/register') return next();
     var authorization = req.headers.authorization;
-    if(!!authorization){
+    if(req.method === 'OPTIONS') next();
+    if(!!authorization ){
         userOperate.checkAuthorization(authorization,next);
     }else{
         return next({
@@ -57,7 +61,6 @@ app.all('/*', function(req, res, next){
             err:'用户认证失败'
         })
     }
-    
 });
 
 //使用中间件,/user路径下面
