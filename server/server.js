@@ -34,12 +34,12 @@ app.use(bodyParser.urlencoded({ extended: true })); //解析form表单
 app.use(bodyParser.json()); //解析post参数
 app.use(morgan('short'))
 
-// app.use(function(req, res, next) {
-//     res.setHeader('Access-Control-Allow-Origin', '*');
-//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-//     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
-//     next();
-// });
+ app.use(function(req, res, next) {
+     res.setHeader('Access-Control-Allow-Origin', '*');
+     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
+     next();
+ });
 
 
 //登录拦截器
